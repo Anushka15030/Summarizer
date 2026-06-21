@@ -1,0 +1,24 @@
+# Render deployment config for the Blog Article Summarizer.
+#
+# This defines a single web service: FastAPI serves both the POST /summarize
+# API and the static frontend (index.html/style.css/script.js) from the same
+# process, so there's only one service to deploy and no cross-origin setup
+# to manage.
+#
+# Deploy: push this repo to GitHub, then on Render choose
+# "New +" -> "Blueprint" and point it at the repo. Render reads this file
+# and creates the service automatically. See README.md for the full guide.
+
+services:
+  - type: web
+    name: blog-summarizer
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false # set manually in the Render dashboard — never commit real keys
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash

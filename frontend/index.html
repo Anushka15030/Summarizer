@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog Article Summarizer</title>
+  <meta name="description" content="Paste a blog URL and get a summary that never exceeds 300 words or 20 sentences." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+
+    <header class="hero">
+      <p class="eyebrow">ARTICLE&nbsp;&rarr;&nbsp;SUMMARY</p>
+      <h1>Blog Article Summarizer</h1>
+      <p class="lede">
+        Paste a blog URL below. The backend fetches the article, extracts the
+        body text, and asks Gemini for a summary &mdash; then independently
+        verifies the result never exceeds 300 words or 20 sentences, trimming
+        at a sentence boundary if it does.
+      </p>
+    </header>
+
+    <main>
+      <form id="summarize-form" class="url-form" autocomplete="off">
+        <label for="url-input" class="visually-hidden">Blog article URL</label>
+        <input
+          id="url-input"
+          name="url"
+          type="url"
+          inputmode="url"
+          placeholder="https://example.com/blog/post"
+          required
+        />
+        <button type="submit" id="submit-btn">Generate Summary</button>
+      </form>
+
+      <div id="loading" class="loading" hidden aria-live="polite">
+        <span class="loading-bar" aria-hidden="true"></span>
+        <span id="loading-text">Fetching the article&hellip;</span>
+      </div>
+
+      <div id="error-banner" class="error-banner" role="alert" hidden></div>
+
+      <section id="result" class="result" hidden aria-live="polite">
+        <article class="summary-card">
+          <h2>Summary</h2>
+          <p id="summary-text"></p>
+        </article>
+
+        <div class="compression" id="compression" aria-hidden="true">
+          <div class="compression-row">
+            <span class="compression-label">Article</span>
+            <div class="compression-track">
+              <div class="compression-fill compression-fill--article" id="bar-article"></div>
+            </div>
+          </div>
+          <div class="compression-row">
+            <span class="compression-label">Summary</span>
+            <div class="compression-track">
+              <div class="compression-fill compression-fill--summary" id="bar-summary"></div>
+            </div>
+          </div>
+          <p class="compression-note" id="compression-note"></p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-value" id="stat-article-words">&mdash;</span>
+            <span class="stat-label">Article Word Count</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="stat-summary-words">&mdash;</span>
+            <span class="stat-label">Summary Word Count</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="stat-sentences">&mdash;</span>
+            <span class="stat-label">Summary Sentence Count</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value" id="stat-time">&mdash;</span>
+            <span class="stat-label">Processing Time</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>FastAPI backend &middot; vanilla HTML/CSS/JS frontend &middot; Gemini API</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

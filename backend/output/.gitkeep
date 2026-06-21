@@ -1,0 +1,3 @@
+# This directory holds the most recently generated summary.txt.
+# It's recreated automatically on startup if missing — this file just
+# keeps the empty directory tracked in git/zip archives.
